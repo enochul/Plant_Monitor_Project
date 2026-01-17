@@ -1,4 +1,4 @@
-### Plant Monitor: The self watering plant device
+# Plant Monitor: The self watering plant device
 
 ## About:
 

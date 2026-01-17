@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-#define LDR_PIN 35 // LDR
+#define LIGHT_PIN 35 // LDR
 
 // Tune these by experiment
 const int dayThreshold = 1800; // above this = "daylight"
@@ -12,7 +12,7 @@ void setup()
 
 void loop()
 {
-  int lightLevel = analogRead(LDR_PIN);
+  int lightLevel = analogRead(LIGHT_PIN);
 
   bool isDayLight = lightLevel > dayThreshold;
 

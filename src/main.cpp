@@ -1,25 +1,48 @@
 #include <Arduino.h>
+#include <DHT.h> // Humidity & Temperature sensor
+#include <Wire.h> // for the display screen
+#include <LiquidCrystal_I2C.h> // for the display screen
 
-#define motor1A 13
-#define motor2A 14
+#define DHTPIN 13     // Set the pin connected to the DHT11 data pin
+#define MOIS_PIN 14 // Soil moisture module
+#define LIGHT_PIN 35 // Photoresistor
+#define motor1A 27 // Pump pin
+#define motor2A 26 // Pump pin
 
-// the setup function runs once when you press reset or power the board
+#define DHTTYPE DHT11  // DHT 11
+DHT dht(DHTPIN, DHTTYPE);
+
+int page = 0;
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+const int dayThreshold = 1800; // above this = "daylight"
+
 void setup() {
-  // initialize digital pin as an output.
-  pinMode(motor1A, OUTPUT);
-  pinMode(motor2A, OUTPUT);  
+  Serial.begin(115200);
+  dht.begin();
 }
 
-// the loop function runs over and over again forever
 void loop() {
+  float humidity = dht.readHumidity();
+  float temperature = dht.readTemperature();
 
-  // Rotate
-  digitalWrite(motor1A, HIGH);     
-  digitalWrite(motor2A, LOW);   
-  delay(5);
+  int lightLevel = analogRead(LIGHT_PIN);
 
-  // Stop
-  digitalWrite(motor1A, LOW);     
-  digitalWrite(motor2A, LOW);    
-  delay(2000); // wait for a second
+  bool isDayLight = lightLevel > dayThreshold;
+
+  // What to show on screen to the user
+  if (isDayLight) {
+    Serial.print("Daylight    ");
+  } else {
+    Serial.print("No daylight ");
+  }
+
+  Serial.print("Raw ADC: ");
+  Serial.println(lightLevel);
+  Serial.print("Humidity: ");
+  Serial.println(humidity);
+  Serial.print("Temperature: ");
+  Serial.println(temperature);
+  Serial.println("-----");
+  delay(1700);
 }
