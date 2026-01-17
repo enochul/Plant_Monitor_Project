@@ -1,38 +1,25 @@
 #include <Arduino.h>
 
-/*Use and edit this file to build and upload
-to the board while we are testing things out*/
+#define motor1A 13
+#define motor2A 14
 
-#define LDR_PIN 35 // LDR
-
-// Tune these by experiment
-const int dayThreshold = 1800; // above this = "daylight"
-
-void setup()
-{
-  Serial.begin(9600);
+// the setup function runs once when you press reset or power the board
+void setup() {
+  // initialize digital pin as an output.
+  pinMode(motor1A, OUTPUT);
+  pinMode(motor2A, OUTPUT);  
 }
 
-void loop()
-{
-  int lightLevel = analogRead(LDR_PIN);
+// the loop function runs over and over again forever
+void loop() {
 
-  bool isDayLight = lightLevel > dayThreshold;
+  // Rotate
+  digitalWrite(motor1A, HIGH);     
+  digitalWrite(motor2A, LOW);   
+  delay(5);
 
-  // What to show on screen to the user
-  if (isDayLight) {
-    Serial.println("Daylight");
-  } else {
-    Serial.println("No daylight");
-  }
-
-  Serial.print("Raw ADC: ");
-  Serial.println(lightLevel);
-
-  // Optional debugging info while tuning brightness settings
-  Serial.print("Raw ADC: ");
-  Serial.println(lightLevel);
-
-  Serial.println("-----");
-  delay(700);
+  // Stop
+  digitalWrite(motor1A, LOW);     
+  digitalWrite(motor2A, LOW);    
+  delay(2000); // wait for a second
 }
