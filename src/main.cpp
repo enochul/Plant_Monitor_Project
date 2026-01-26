@@ -57,24 +57,6 @@ void loop() {
   Serial.println("-----");
   delay(1700);
 
-   switch (water_state)
-    case 0:
-      //action turn off water
-      if (moisture < dryThreshold){
-          water_state = 1;
-      }
-      break;
-    case 1:
-      //action turn on water
-      if (moisture > wetthreshold){
-          water_state = 0;
-      }
-      break;
-    default:
-      water_state = 0;
-      break;
-}
-
 void fmsWaterController (){
     static int water_state = 0;
 
