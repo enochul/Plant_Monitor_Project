@@ -1,3 +1,4 @@
+:echo globpath(&runtimepath, 'colors/tokyonight.vim')
 #include <Arduino.h>
 #include <DHT.h> // Humidity & Temperature sensor
 #include <Wire.h> // for the display screen
@@ -16,17 +17,27 @@ int page = 0;
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 const int dayThreshold = 1800; // above this = "daylight"
+const int dryThreshold = 2200; // below this = too dry
+const int wetThreshold = 3300; // above this p= too dry
 
 void setup() {
   Serial.begin(115200);
   dht.begin();
+
+  lcd.init(); //Turn on LCD screen brain
+  lcd.backlight(); //Turn on LCD backlight
+  pinMode(motor1A , OUTPUT);
+  pinMode(motor2A , OUTOPUT);
+
 }
 
 void loop() {
+	//Humidity, Temperature, and Light readings
   float humidity = dht.readHumidity();
   float temperature = dht.readTemperature();
-
   int lightLevel = analogRead(LIGHT_PIN);
+  int moisture = analogRead(MOIS_PIN);
+  if (isnan(humidity) || isnan(temperature)) return;
 
   bool isDayLight = lightLevel > dayThreshold;
 
@@ -45,4 +56,43 @@ void loop() {
   Serial.println(temperature);
   Serial.println("-----");
   delay(1700);
+
+   switch (water_state)
+    case 0:
+      //action turn off water
+      if (moisture < dryThreshold){
+          water_state = 1;
+      }
+      break;
+    case 1:
+      //action turn on water
+      if (moisture > wetthreshold){
+          water_state = 0;
+      }
+      break;
+    default:
+      water_state = 0;
+      break;
 }
+
+void fmsWaterController (){
+    static int water_state = 0;
+
+    switch (water_state)
+    case 0:
+        //action turn off water
+        if (moisture < wetthreshold){
+            water_state = 1;
+        }
+        break;
+    case 1:
+        //action turn on water
+        if (moisture > wetthreshold){
+            water_stae = 0;
+        }
+        break;
+    default:
+        water_state = 0;
+        break;
+}
+
