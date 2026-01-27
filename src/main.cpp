@@ -17,21 +17,37 @@ DHT dht(DHTPIN, DHTTYPE);
 int page = 0;
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
+        //----------THRESHOLDS----------//
 const int dayThreshold = 1800; // above this = "daylight"
 const int dryThreshold = 2000; // below this = too dry
 const int wetThreshold = 1500; // above this = too wet
 
+        //----------TIMER VARIABLES----------//
+unsigned long last_serial_print = 0;
+unsigned long last_LCD_update = 0;
+
+const unsigned long SERIAL_INTERVAL = 1000;
+const unsigned long LCD_INTERVAL = 1000;
+
 enum { WATER_OFF, WATER_ON };
 int water_plant = WATER_OFF;
 
-int readAveragedADC(int pin, int samples = 10) {
-  long sum = 0;
-  for (int i = 0; i < samples; i++) {
-    sum += analogRead(pin);
-    delay(200);
+int readAveragedADC(int pin, int samples = 10 , unsigned long interval = 500) {
+  static unsigned long last_read_time[40] = {0};
+  static int last_value[40] = {0};
+  unsigned long now = millis();
+
+  if (now - last_read_time[pin] >= interval) {
+      last_read_time[pin] = now;
+
+      long sum = 0;
+      for (int i = 0; i < samples; i++){
+          sum += analogRead(pin);
+      }
+      last_value[pin] = sum / samples;
+    }
+  retrun last_value[pin]
   }
-  return sum / samples;
-}
 
 void fsmWaterController (int moisture){
     static int water_state = 0;
@@ -46,31 +62,6 @@ void fsmWaterController (int moisture){
     case 1:
         water_plant = WATER_ON;
         if (moisture < wetThreshold){
-            water_state = 0;
-        }
-        break;
-    default:
-        water_state = 0;
-        break;
-    }
-
-    digitalWrite(motor1A , water_plant);
-
-}
-
-void fsmWaterController (int moisture){
-    static int water_state = 0;
-
-    switch (water_state){
-    case 0:
-        water_plant = WATER_OFF;
-        if (moisture < dryThreshold){
-            water_state = 1;
-        }
-        break;
-    case 1:
-        water_plant = WATER_ON;
-        if (moisture > wetThreshold){
             water_state = 0;
         }
         break;
@@ -105,50 +96,26 @@ void loop() {
   bool isDayLight = lightLevel > dayThreshold;
 
   // What to show on screen to the user
-  if (isDayLight) {
-    Serial.print("Daylight    ");
-  } else {
-    Serial.print("No daylight ");
-  }
+  if (millis() - last_serial_print >= SERIAL_INTERVAL) {
+      last_serial_print = millis();
 
-  Serial.print("Light: ");
-  Serial.print(lightLevel);
-  Serial.print("Moisture: ");
-  Serial.print(moisture);
-  Serial.print("Temp: ");
-  Serial.print(temperature, 1);
-  Serial.print("Humidity: ");
-  Serial.print(humidity, 1);
-  Serial.print("Water: ");
-  Serial.println(water_plant == WATER_ON ? "ON" : "OFF");
-  Serial.println("-----");
-  delay(1700);
-
-  fsmWaterController(moisture);
-}
-
-void fsmWaterController (int moisture){
-    static int water_state = 0;
-
-    switch (water_state){
-    case 0:
-        water_plant = WATER_OFF;
-        if (moisture < dryThreshold){
-            water_state = 1;
-        }
-        break;
-    case 1:
-        water_plant = WATER_ON;
-        if (moisture > wetThreshold){
-            water_state = 0;
-        }
-        break;
-    default:
-        water_state = 0;
-        break;
+    if (isDayLight) {
+        Serial.print("Daylight    ");
+    } else {
+        Serial.print("No daylight ");
     }
-
-    digitalWrite(motor1A , water_plant);
-
+    Serial.print("Light: ");
+    Serial.print(lightLevel);
+    Serial.print("Moisture: ");
+    Serial.print(moisture);
+    Serial.print("Temp: ");
+    Serial.print((temperature*(9/5)+32), 1);
+    Serial.print("Humidity: ");
+    Serial.print(humidity, 1);
+    Serial.print("Water: ");
+    Serial.println(water_plant == WATER_ON ? "ON" : "OFF");
+    Serial.println("-----");
+  }
+  fsmWaterController (moisture);
 }
 
