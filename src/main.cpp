@@ -26,13 +26,13 @@ const int wetThreshold = 1500; // above this = too wet
 unsigned long last_serial_print = 0;
 unsigned long last_LCD_update = 0;
 
-const unsigned long SERIAL_INTERVAL = 1000;
+const unsigned long SERIAL_INTERVAL = 500;
 const unsigned long LCD_INTERVAL = 1000;
 
 enum { WATER_OFF, WATER_ON };
 int water_plant = WATER_OFF;
 
-int readAveragedADC(int pin, int samples = 10 , unsigned long interval = 500) {
+int readAveragedADC(int pin, int samples = 10 , unsigned long interval = 100) {
   static unsigned long last_read_time[40] = {0};
   static int last_value[40] = {0};
   unsigned long now = millis();
@@ -115,7 +115,7 @@ void loop() {
     Serial.print("Water: ");
     Serial.println(water_plant == WATER_ON ? "ON" : "OFF");
     Serial.println("-----");
-  }
+  }/Users/dawson/Documents/School/plant_project/plant_monitor_project 
   fsmWaterController (moisture);
 }
 
