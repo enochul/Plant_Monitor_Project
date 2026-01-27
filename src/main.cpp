@@ -124,6 +124,30 @@ void loop() {
   if (millis() - last_serial_print >= SERIAL_INTERVAL) {
       last_serial_print = millis();
 
+    lcd.clear();
+
+    // -------- ROW 0 --------
+    lcd.setCursor(0, 0);
+    lcd.print("L:");
+    lcd.print(lightLevel);
+    lcd.print(" M:");
+    lcd.print(moisture);
+
+    // -------- ROW 1 --------
+    lcd.setCursor(0, 1);
+    if (isDayLight) {
+      lcd.print("DAY ");
+    } else {
+      lcd.print("NIGHT ");
+      }
+
+    lcd.print("W:");
+    lcd.print(water_plant == WATER_ON ? "ON " : "OFF");
+
+    lcd.print(" ");
+    lcd.print((int)(temperature * 9 / 5 + 32));
+    lcd.print("F");
+
     if (isDayLight) {
         Serial.print("Daylight    ");
     } else {
