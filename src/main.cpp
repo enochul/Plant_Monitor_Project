@@ -83,6 +83,7 @@ void fsmWaterController (int moisture){
 }
 
 void fsmDaylight(int lightLevel) {
+  bool isDayLight = lightLevel > dayThreshold; // evaluate daylight reading
   if (isDayLight) {
     Serial.print("Daylight    ");
   } else {
@@ -97,13 +98,6 @@ void Perception() {
   lightLevel = readAveragedADC(LIGHT_PIN, 10);
   moisture = readAveragedADC(MOIS_PIN, 15);
   if (isnan(humidity) || isnan(temperature)) return;
-  
-  if (lightLevel > dayThreshold){
-    isDayLight = true;
-  } else {
-    isDayLight = false;
-  }
-
 }
 
 void setup() {
