@@ -18,8 +18,8 @@ int page = 0;
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 const int dayThreshold = 1800; // above this = "daylight"
-const int dryThreshold = 2200; // below this = too dry
-const int wetThreshold = 3300; // above this = too wet
+const int dryThreshold = 2000; // below this = too dry
+const int wetThreshold = 1500; // above this = too wet
 
 enum { WATER_OFF, WATER_ON };
 int water_plant = WATER_OFF;
@@ -31,6 +31,31 @@ int readAveragedADC(int pin, int samples = 10) {
     delay(200);
   }
   return sum / samples;
+}
+
+void fsmWaterController (int moisture){
+    static int water_state = 0;
+
+    switch (water_state){
+    case 0:
+        water_plant = WATER_OFF;
+        if (moisture > dryThreshold){
+            water_state = 1;
+        }
+        break;
+    case 1:
+        water_plant = WATER_ON;
+        if (moisture < wetThreshold){
+            water_state = 0;
+        }
+        break;
+    default:
+        water_state = 0;
+        break;
+    }
+
+    digitalWrite(motor1A , water_plant);
+
 }
 
 void setup() {
@@ -75,30 +100,5 @@ void loop() {
   delay(1700);
 
   fsmWaterController (moisture);
-}
-
-void fsmWaterController (int moisture){
-    static int water_state = 0;
-
-    switch (water_state){
-    case 0:
-        water_plant = WATER_OFF;
-        if (moisture < dryThreshold){
-            water_state = 1;
-        }
-        break;
-    case 1:
-        water_plant = WATER_ON;
-        if (moisture > wetThreshold){
-            water_state = 0;
-        }
-        break;
-    default:
-        water_state = 0;
-        break;
-    }
-
-    digitalWrite(motor1A , water_plant);
-
 }
 
