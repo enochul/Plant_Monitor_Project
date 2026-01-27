@@ -12,8 +12,6 @@
 #define DHTTYPE DHT11  // DHT 11
 DHT dht(DHTPIN, DHTTYPE);
 
-
-
 int page = 0;
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
@@ -21,6 +19,16 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 const int dayThreshold = 1800; // above this = "daylight"
 const int dryThreshold = 2000; // below this = too dry
 const int wetThreshold = 1500; // above this = too wet
+
+// Perception Variables
+float humidity;
+float temperature;
+int lightLevel;
+int moisture;
+
+// State Variables
+bool isDayLight = false;
+
 
         //----------TIMER VARIABLES----------//
 unsigned long last_serial_print = 0;
@@ -46,7 +54,7 @@ int readAveragedADC(int pin, int samples = 10 , unsigned long interval = 100) {
       }
       last_value[pin] = sum / samples;
     }
-  retrun last_value[pin]
+  return last_value[pin];
   }
 
 void fsmWaterController (int moisture){
@@ -74,6 +82,30 @@ void fsmWaterController (int moisture){
 
 }
 
+void fsmDaylight(int lightLevel) {
+  if (isDayLight) {
+    Serial.print("Daylight    ");
+  } else {
+    Serial.print("No daylight ");
+  }
+}
+
+void Perception() {
+  //Humidity, Temperature, and Light readings
+  humidity = dht.readHumidity();
+  temperature = dht.readTemperature();
+  lightLevel = readAveragedADC(LIGHT_PIN, 10);
+  moisture = readAveragedADC(MOIS_PIN, 15);
+  if (isnan(humidity) || isnan(temperature)) return;
+  
+  if (lightLevel > dayThreshold){
+    isDayLight = true;
+  } else {
+    isDayLight = false;
+  }
+
+}
+
 void setup() {
   Serial.begin(115200);
   dht.begin();
@@ -86,14 +118,7 @@ void setup() {
 }
 
 void loop() {
-	//Humidity, Temperature, and Light readings
-  float humidity = dht.readHumidity();
-  float temperature = dht.readTemperature();
-  int lightLevel = readAveragedADC(LIGHT_PIN, 10);
-  int moisture   = readAveragedADC(MOIS_PIN, 15);
-  if (isnan(humidity) || isnan(temperature)) return;
-
-  bool isDayLight = lightLevel > dayThreshold;
+  Perception();
 
   // What to show on screen to the user
   if (millis() - last_serial_print >= SERIAL_INTERVAL) {
@@ -115,7 +140,7 @@ void loop() {
     Serial.print("Water: ");
     Serial.println(water_plant == WATER_ON ? "ON" : "OFF");
     Serial.println("-----");
-  }/Users/dawson/Documents/School/plant_project/plant_monitor_project 
+  }
   fsmWaterController (moisture);
 }
 
