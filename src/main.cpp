@@ -1,4 +1,3 @@
-:echo globpath(&runtimepath, 'colors/tokyonight.vim')
 #include <Arduino.h>
 #include <DHT.h> // Humidity & Temperature sensor
 #include <Wire.h> // for the display screen
@@ -13,12 +12,26 @@
 #define DHTTYPE DHT11  // DHT 11
 DHT dht(DHTPIN, DHTTYPE);
 
+
+
 int page = 0;
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 const int dayThreshold = 1800; // above this = "daylight"
 const int dryThreshold = 2200; // below this = too dry
-const int wetThreshold = 3300; // above this p= too dry
+const int wetThreshold = 3300; // above this = too wet
+
+enum { WATER_OFF, WATER_ON };
+int water_plant = WATER_OFF;
+
+int readAveragedADC(int pin, int samples = 10) {
+  long sum = 0;
+  for (int i = 0; i < samples; i++) {
+    sum += analogRead(pin);
+    delay(200);
+  }
+  return sum / samples;
+}
 
 void setup() {
   Serial.begin(115200);
@@ -27,7 +40,7 @@ void setup() {
   lcd.init(); //Turn on LCD screen brain
   lcd.backlight(); //Turn on LCD backlight
   pinMode(motor1A , OUTPUT);
-  pinMode(motor2A , OUTOPUT);
+  pinMode(motor2A , OUTPUT);
 
 }
 
@@ -35,8 +48,8 @@ void loop() {
 	//Humidity, Temperature, and Light readings
   float humidity = dht.readHumidity();
   float temperature = dht.readTemperature();
-  int lightLevel = analogRead(LIGHT_PIN);
-  int moisture = analogRead(MOIS_PIN);
+  int lightLevel = readAveragedADC(LIGHT_PIN, 10);
+  int moisture   = readAveragedADC(MOIS_PIN, 15);
   if (isnan(humidity) || isnan(temperature)) return;
 
   bool isDayLight = lightLevel > dayThreshold;
@@ -48,33 +61,44 @@ void loop() {
     Serial.print("No daylight ");
   }
 
-  Serial.print("Raw ADC: ");
-  Serial.println(lightLevel);
+  Serial.print("Light: ");
+  Serial.print(lightLevel);
+  Serial.print("Moisture: ");
+  Serial.print(moisture);
+  Serial.print("Temp: ");
+  Serial.print(temperature, 1);
   Serial.print("Humidity: ");
-  Serial.println(humidity);
-  Serial.print("Temperature: ");
-  Serial.println(temperature);
+  Serial.print(humidity, 1);
+  Serial.print("Water: ");
+  Serial.println(water_plant == WATER_ON ? "ON" : "OFF");
   Serial.println("-----");
   delay(1700);
 
-void fmsWaterController (){
+  fsmWaterController (moisture);
+}
+
+void fsmWaterController (int moisture){
     static int water_state = 0;
 
-    switch (water_state)
+    switch (water_state){
     case 0:
-        //action turn off water
-        if (moisture < wetthreshold){
+        water_plant = WATER_OFF;
+        if (moisture < dryThreshold){
             water_state = 1;
         }
         break;
     case 1:
-        //action turn on water
-        if (moisture > wetthreshold){
-            water_stae = 0;
+        water_plant = WATER_ON;
+        if (moisture > wetThreshold){
+            water_state = 0;
         }
         break;
     default:
         water_state = 0;
         break;
+    }
+
+    digitalWrite(motor1A , water_plant);
+
 }
 
