@@ -33,6 +33,31 @@ int readAveragedADC(int pin, int samples = 10) {
   return sum / samples;
 }
 
+void fsmWaterController (int moisture){
+    static int water_state = 0;
+
+    switch (water_state){
+    case 0:
+        water_plant = WATER_OFF;
+        if (moisture < dryThreshold){
+            water_state = 1;
+        }
+        break;
+    case 1:
+        water_plant = WATER_ON;
+        if (moisture > wetThreshold){
+            water_state = 0;
+        }
+        break;
+    default:
+        water_state = 0;
+        break;
+    }
+
+    digitalWrite(motor1A , water_plant);
+
+}
+
 void setup() {
   Serial.begin(115200);
   dht.begin();
@@ -74,31 +99,7 @@ void loop() {
   Serial.println("-----");
   delay(1700);
 
-  fsmWaterController (moisture);
+  fsmWaterController(moisture);
 }
 
-void fsmWaterController (int moisture){
-    static int water_state = 0;
-
-    switch (water_state){
-    case 0:
-        water_plant = WATER_OFF;
-        if (moisture < dryThreshold){
-            water_state = 1;
-        }
-        break;
-    case 1:
-        water_plant = WATER_ON;
-        if (moisture > wetThreshold){
-            water_state = 0;
-        }
-        break;
-    default:
-        water_state = 0;
-        break;
-    }
-
-    digitalWrite(motor1A , water_plant);
-
-}
 
