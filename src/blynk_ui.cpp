@@ -2,32 +2,32 @@
 
 #include "blynk_ui.h"
 #include <WiFi.h>
-
 #include "perception.h"
 #include "water_fsm.h"
 
-// -------- BLYNK CREDENTIALS --------
+//----------BLYNK CREDENTIALS----------//
 #define BLYNK_TEMPLATE_ID "TMPL2NthM_I1x"
 #define BLYNK_TEMPLATE_NAME "Plant Monitor"
 #define BLYNK_AUTH_TOKEN    "YOUR_DEVICE_AUTH_TOKEN"
 
 #include <BlynkSimpleEsp32.h>
 
+//-------------WIFI INFO-------------//
 const char* ssid = "YOUR_WIFI";
 const char* pass = "YOUR_PASSWORD";
 
-// Thresholds (shared with FSM)
+//---Thresholds (shared with FSM)---//
 extern int dryThreshold;
 extern int wetThreshold;
 
-// Manual override
+//---------Manual override---------//
 static bool manualWater = false;
 
 void blynkInit() {
     Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
 }
 
-// Push sensor data → app
+//-----Push sensor data → app-----//
 void blynkUpdate() {
     Blynk.run();
 
@@ -42,19 +42,16 @@ void blynkUpdate() {
     }
 }
 
-
-// -------- INBOUND CONTROLS --------
+//---------INBOUND CONTROLS---------//
 
 // Dry threshold slider
 BLYNK_WRITE(V5) {
     dryThreshold = param.asInt();
 }
-
 // Wet threshold slider
 BLYNK_WRITE(V6) {
     wetThreshold = param.asInt();
 }
-
 // Manual water button
 BLYNK_WRITE(V7) {
     manualWater = param.asInt();

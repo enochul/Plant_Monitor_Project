@@ -3,34 +3,36 @@
 #include "perception.h"
 #include "water_fsm.h"
 
-// LCD instance (owned here)
+//---LCD instance (owned here)---//
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-// Timing
+//------------Timing------------//
 static unsigned long lastUpdate = 0;
 const unsigned long LCD_INTERVAL = 1000;
 
+//-----INITALIZER FUNCTION------//
 void lcdInit() {
     lcd.init();
     lcd.backlight();
     lcd.clear();
 }
 
+//-------UPDATE FUNCTION--------//
 void lcdUpdate() {
     unsigned long now = millis();
     if (now - lastUpdate < LCD_INTERVAL) return;
     lastUpdate = now;
 
     lcd.clear();
-
-    // -------- ROW 0 --------
+    //-----PRINT FUNCTIONS-----//
+    //----------ROW 0----------//
     lcd.setCursor(0, 0);
     lcd.print("L:");
     lcd.print(lightLevel);
     lcd.print(" M:");
     lcd.print(moisture);
 
-    // -------- ROW 1 --------
+    //----------ROW 1----------//
     lcd.setCursor(0, 1);
     lcd.print(isDayLight ? "DAY " : "NIGHT ");
     lcd.print("W:");

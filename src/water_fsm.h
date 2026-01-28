@@ -1,7 +1,7 @@
 #pragma once
 #include <Arduino.h>
 
-extern bool manualOverride;
+extern bool manualOverride; //allowing for overide from blynk app
 enum WaterState { WATER_OFF, WATER_ON };
 
 extern int water_plant;
