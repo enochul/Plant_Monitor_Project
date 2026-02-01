@@ -29,17 +29,17 @@ void blynkInit() {
 
 //-----Push sensor data → app-----//
 void blynkUpdate() {
-    // Blynk.run();
+    Blynk.run();
 
-    // static unsigned long lastPush = 0;
-    // if (millis() - lastPush >= 1000) {
-    //     lastPush = millis();
-    //     Blynk.virtualWrite(V0, moisture);
-    //     Blynk.virtualWrite(V1, lightLevel);
-    //     Blynk.virtualWrite(V2, temperature * 9 / 5 + 32);
-    //     Blynk.virtualWrite(V3, humidity);
-    //     Blynk.virtualWrite(V4, isWatering);
-    // }
+    static unsigned long lastPush = 0;
+    if (millis() - lastPush >= 1000) {
+        lastPush = millis();
+        Blynk.virtualWrite(V0, moisture);
+        Blynk.virtualWrite(V1, lightLevel);
+        Blynk.virtualWrite(V2, temperature * 9 / 5 + 32);
+        Blynk.virtualWrite(V3, humidity);
+        Blynk.virtualWrite(V4, isWatering);
+    }
 }
 
 //---------INBOUND CONTROLS---------//

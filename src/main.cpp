@@ -12,7 +12,7 @@ void setup() {
     PerceptionInit(); //sensor initializing
     waterFSMInit(MOTOR_PIN); //Water FSM initalizing
     lcdInit(); //LCD Screen initalizing
-    blynkInit(); // Blynk initalizing
+    //blynkInit(); // Blynk initalizing
 }
 
 void loop() {
@@ -21,5 +21,5 @@ void loop() {
     PerceptionUpdate(); //updating Sensor Readings
     fsmWaterController(moisture); //Updating Water FSM
     lcdUpdate(); //Updating LCD Screen
-    blynkUpdate(); //Updating Blynk I/O platform
+    //blynkUpdate(); //Updating Blynk I/O platform
 }
