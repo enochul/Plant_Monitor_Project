@@ -23,20 +23,23 @@ void lcdUpdate() {
     if (now - lastUpdate < LCD_INTERVAL) return;
     lastUpdate = now;
 
-    lcd.clear();
-    //-----PRINT FUNCTIONS-----//
-    //----------ROW 0----------//
-    lcd.setCursor(0, 0);
-    lcd.print("L:");
-    lcd.print(lightLevel);
-    lcd.print(" M:");
-    lcd.print(moisture);
+    char line0[17]; // 16 chars + null terminator
+    char line1[17];
 
-    //----------ROW 1----------//
+    // Build Row 0: L:4095 M:1500
+    // %4d means "an integer exactly 4 spaces wide"
+    snprintf(line0, sizeof(line0), "L:%4d M:%4d", lightLevel, moisture);
+
+    // Build Row 1: DAY  W:OFF  72F
+    // %-5s means "string left-aligned in 5 spaces"
+    int tempF = (int)(temperature * 9 / 5 + 32);
+    const char* dayStr = isDayLight ? "DAY  " : "NIGHT";
+    const char* waterStr = isWatering ? "ON " : "OFF";
+    snprintf(line1, sizeof(line1), "%s W:%s %3dF", dayStr, waterStr, tempF);
+
+    // Send to LCD
+    lcd.setCursor(0, 0);
+    lcd.print(line0);
     lcd.setCursor(0, 1);
-    lcd.print(isDayLight ? "DAY " : "NIGHT ");
-    lcd.print("W:");
-    lcd.print(water_plant == WATER_ON ? "ON " : "OFF ");
-    lcd.print((int)(temperature * 9 / 5 + 32));
-    lcd.print("F");
+    lcd.print(line1);
 }

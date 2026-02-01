@@ -4,7 +4,7 @@
 extern bool manualOverride; //allowing for overide from blynk app
 enum WaterState { WATER_OFF, WATER_ON };
 
-extern int water_plant;
+extern bool isWatering;
 extern int dryThreshold;
 extern int wetThreshold;
 

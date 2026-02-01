@@ -20,8 +20,8 @@ bool isDayLight = false;
 
 //----------INITALIZER FUNCTION----------//
 void PerceptionInit() {
-    analogReadResolution(12);
-    analogSetAttenuation(ADC_11db);
+    analogReadResolution(12); //adjusts how precise the reading will be: this is pretty precise
+    analogSetAttenuation(ADC_11db); //expands the reading range from 0V to appros 3.3V
     dht.begin();
 }
 
@@ -32,8 +32,8 @@ void PerceptionUpdate() {
 
     if (isnan(humidity) || isnan(temperature)) return; //used if sensors are not reading
 
-    lightLevel = readAveragedADC(LIGHT_PIN, 10);
-    moisture   = readAveragedADC(MOIS_PIN, 15);
+    lightLevel = readAveragedADC(LIGHT_PIN, 10, 100);
+    moisture   = readAveragedADC(MOIS_PIN, 20, 100);
 
     isDayLight = (lightLevel > dayThreshold);
 }
