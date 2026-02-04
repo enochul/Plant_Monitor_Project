@@ -39,7 +39,7 @@ Plant Monitor is a compact, IoT‑ready device designed to keep your plants heal
  16x2 character LCD with a two-wire I2C backpack used to display sensor readings.
 ---
 ### **Supporting Components**
-- **ESP32 Battery xtension Board**
+- **ESP32 Battery Extension Board**
  Provides battery power, an on/off switch, USB-C charging (allowing device to be used anywhere), and easier pin access.
 - **18650 battery**
  A 3.6V rechargeable lithium-ion cell battery. 
