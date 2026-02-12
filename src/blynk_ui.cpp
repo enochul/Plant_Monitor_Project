@@ -53,6 +53,9 @@ BLYNK_WRITE(V6) {
     wetThreshold = param.asInt();
 }
 // Manual water button
+extern bool manualOveride;
 BLYNK_WRITE(V7) {
-    manualWater = param.asInt();
+    if (param.asInt() == 1) {
+        manualOveride = true;
+    }
 }

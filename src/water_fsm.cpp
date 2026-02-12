@@ -62,8 +62,7 @@ void perform_watering() {
 void fsmWaterController(int moisture) {
     //---allowing for manual overide---//
     if (manualOverride) { //happens in the blynk file
-        perform_watering();
-        return;
+        water_state = WATER_ON;
     }
     //-----FSM SWITCH STATEMENTS-----//
     switch (water_state) {
