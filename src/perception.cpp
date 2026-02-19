@@ -8,7 +8,7 @@
 #define MOIS_PIN 14
 #define LIGHT_PIN 35
 
-const int dayThreshold = 1800; //used to make daylight binary
+const int dayThreshold = 1188; //used to make daylight binary
 
 DHT dht(DHTPIN, DHTTYPE);
 //----------DATA VARIABLES----------//
