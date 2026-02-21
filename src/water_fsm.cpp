@@ -15,13 +15,13 @@ const long bootBuffer = 15000; // buffer for a hard limit on the soonest water w
 
 // Helper functions to handle inverted logic in one place
 void pumpOn() {
-    digitalWrite(motorPinInternal, LOW); // Change to HIGH if logic is normal
+    digitalWrite(motorPinInternal, HIGH); // OG breadboard was inverted: change to HIGH if logic is normal
     isWatering = true;
     Serial.println(">>> PUMP ACTIVATED");
 }
 
 void pumpOff() {
-    digitalWrite(motorPinInternal, HIGH); // Change to LOW if logic is normal
+    digitalWrite(motorPinInternal, LOW); // OG breadboard was inverted: change to LOW if logic is normal
     isWatering = false;
     Serial.println(">>> PUMP DEACTIVATED");
 }
