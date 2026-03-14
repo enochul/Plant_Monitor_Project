@@ -1,5 +1,7 @@
 #include "water_fsm.h"
 
+#define ENABLE_PIN 4  // The new hardware lock pin
+
 //---------VARIABLE INITALIZATIONS----------//
 bool manualOverride = false;
 static int motorPinInternal;
@@ -15,6 +17,7 @@ const long bootBuffer = 15000; // buffer for a hard limit on the soonest water w
 
 // Helper functions to handle inverted logic in one place
 void pumpOn() {
+    digitalWrite(ENABLE_PIN, HIGH); // Wake up the L293D
     digitalWrite(motorPinInternal, HIGH); // OG breadboard was inverted: change to HIGH if logic is normal
     isWatering = true;
     Serial.println(">>> PUMP ACTIVATED");
@@ -22,6 +25,7 @@ void pumpOn() {
 
 void pumpOff() {
     digitalWrite(motorPinInternal, LOW); // OG breadboard was inverted: change to LOW if logic is normal
+    digitalWrite(ENABLE_PIN, LOW); //put the L293D back to sleep
     isWatering = false;
     Serial.println(">>> PUMP DEACTIVATED");
 }
@@ -29,6 +33,8 @@ void pumpOff() {
 //----------INITALIZER FUNCTION----------//
 void waterFSMInit(int motorPin) {
     motorPinInternal = motorPin;
+    pinMode(ENABLE_PIN, OUTPUT);
+    digitalWrite(ENABLE_PIN, LOW);
     pinMode(motorPinInternal, OUTPUT);
     digitalWrite(motorPinInternal, HIGH);
 }
