@@ -11,7 +11,7 @@ int wetThreshold = 1500;
 bool isWatering = false;
 unsigned long currentMillis = millis();
 unsigned long lastWaterTime = 0;
-const long waterDuration = 2000; // sets pump timer for two seconds
+const long waterDuration = 3500; // sets pump timer for two seconds
 const long wait_period = 60000; // sets the time we wait to check moisture after watering
 const long bootBuffer = 15000; // buffer for a hard limit on the soonest water will turn on
 
