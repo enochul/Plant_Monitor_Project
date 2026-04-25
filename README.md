@@ -62,8 +62,8 @@ Plant Monitor is a compact, IoT‑ready device designed to keep your plants grow
 
 ### PCB Design
 <p align="center">
-  <img src="images/pcb_front.jpg" width="400">
-  <img src="images/pcb_back.jpg" width="400">
+  <img src="images/pcb_front.png" width="400">
+  <img src="images/pcb_back.png" width="400">
 </p>
 ---
 
