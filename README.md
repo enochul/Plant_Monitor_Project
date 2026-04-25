@@ -6,7 +6,6 @@
 
 ![Platform](https://img.shields.io/badge/platform-ESP32-blue)
 ![Sensors](https://img.shields.io/badge/sensors-DHT11%20%7C%20Moisture%20%7C%20LDR-yellow)
-![Power](https://img.shields.io/badge/power-18650-red)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 ![Made With](https://img.shields.io/badge/made%20with-PlatformIO-orange)
 
@@ -20,13 +19,15 @@
 ---
 
 ## 🌱 About
-Plant Monitor is a compact, IoT‑ready device designed to keep your plants healthy and thriving. Four environmental sensors continuously monitor soil moisture, temperature, humidity, and light levels to maintain ideal growing conditions.
+Plant Monitor is a compact, IoT‑ready device designed to keep your plants growing and healthy. Four environmental sensors continuously monitor soil moisture, temperature, humidity, and sunlight levels to maintain ideal growing conditions.
 ---
 
 ## 🔧 Hardware List
 ### **Sensors / Active Parts**
 - **ESP32 WROOM 32E**
- Dual-core 32-bit microcontroller with Wi-Fi and Bluetooth. Runs up to 240 MHz. Ideal for low-power IoT applications such as this.
+ Dual-core 32-bit microcontroller with Wi-Fi and Bluetooth. Runs up to 240 MHz. Ideal for this low-power IoT application.
+- **Custom Printed Circuit Board**
+  Custom circuit board to connect microcontroller and sensors, send signals, and manage power. Designed using KiCad software.
 - **DHT11 Humiture Sensor**
  Measures both temperature (0-50 Celcius) and relative humidity using a capacitive humidity sensor. Outputs data over a single wire digital interface.
 - **Capacitive Soil Moisture Module**
@@ -39,35 +40,33 @@ Plant Monitor is a compact, IoT‑ready device designed to keep your plants heal
  16x2 character LCD with a two-wire I2C backpack used to display sensor readings.
 ---
 ### **Supporting Components**
-- **ESP32 Battery Extension Board**
- Provides battery power, an on/off switch, USB-C charging (allowing device to be used anywhere), and easier pin access.
-- **18650 battery**
- A 3.6V rechargeable lithium-ion cell battery. 
+- **Four Double A Battery Pack**
+ Provides power for motor, ESP32, sensors.
 - **L293D Dual Motor Driver**
  Dual H bridge driver supporting PWM output. Handles 600mA per channel and a peak current of 1.2A.
-- **Breadboard**
- Used for prototyping the circuit.
 - **Jumper Wires**
  Used for connecting sensors and modules
 - **Resistor**
  10k ohm resistor used for pull-up or signal conditioning.
----
-
-## 🧩 Wiring Diagram
-*Coming Soon - ESP32 pinout, sensor connections, pump driver wiring*
+- **Capacitors**
+ Various capacitors used for decoupling. Features both ceramic and electrolytic capacitors.
+- **Screw Terminals**
+  Connecting PCB traces to wires connecting sensors.
 ---
 
 ## 📸 Photos
-*Coming soon — hardware setup, wiring, and enclosure.*
+### 🧩 Wiring Diagram
+<p align="center">
+  <img src="images/schematic.png" width="500">
+</p>
+
+### PCB Design
+<p align="center">
+  <img src="images/pcb_front.jpg" width="400">
+  <img src="images/pcb_back.jpg" width="400">
+</p>
 ---
 
-## 🗺️ Roadmap
-- [ ] Add full wiring diagram  
-- [ ] Implement sensor calibration  
-- [ ] Add OLED/LCD UI  
-- [ ] Add pump control logic  
-- [ ] Add enclosure design  
-- [ ] Add cloud logging or Wi‑Fi dashboard  
 
 ## 📄 License
 This project is licensed under the MIT License.
