@@ -87,8 +87,6 @@ Plant Monitor is a compact, IoT‑ready device designed to keep your plants heal
   <img src="images/IMG_5783.png" width="300">
   <img src="images/IMG_5784.jpg" width="300">
 </p>
----
-
 
 ## 📄 License
 This project is licensed under the MIT License.
