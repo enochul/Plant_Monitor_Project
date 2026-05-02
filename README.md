@@ -1,7 +1,7 @@
 <p align="center">
-  <img src="images/IMG_5783.heic" width="200">
+  <img src="images/IMG_5783.HEIC" width="200">
   <img src="images/plant.png" width="200">
-  <img src="images/IMG_5781.heic.png" width="200">
+  <img src="images/IMG_5781.HEIC.png" width="200">
 </p>
 
 # Plant Monitor: A Self-Watering Plant Device
