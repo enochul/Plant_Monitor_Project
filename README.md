@@ -11,7 +11,7 @@
 
 ## ✨ Features
 - Automated soil moisture monitoring
-- Automatic watering via pump
+- Automatic watering via pump & tubing
 - Temperature and humidity tracking
 - Light level detection
 - LCD display for real-time readings
@@ -19,7 +19,7 @@
 ---
 
 ## 🌱 About
-Plant Monitor is a compact, IoT‑ready device designed to keep your plants growing and healthy. Four environmental sensors continuously monitor soil moisture, temperature, humidity, and sunlight levels to maintain ideal growing conditions.
+Plant Monitor is a compact, IoT‑ready device designed to keep your plants healthy. Four environmental sensors continuously monitor soil moisture, temperature, humidity, and sunlight levels to maintain ideal growing conditions.
 ---
 
 ## 🔧 Hardware List
@@ -40,7 +40,7 @@ Plant Monitor is a compact, IoT‑ready device designed to keep your plants grow
  16x2 character LCD with a two-wire I2C backpack used to display sensor readings.
 ---
 ### **Supporting Components**
-- **Four Double A Battery Pack**
+- **Four Double A Battery Pack (x2)**
  Provides power for motor, ESP32, sensors.
 - **L293D Dual Motor Driver**
  Dual H bridge driver supporting PWM output. Handles 600mA per channel and a peak current of 1.2A.
