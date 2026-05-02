@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/IMG_5783.pnb" width="200">
+  <img src="images/IMG_5783.png" width="200">
   <img src="images/plant.png" width="200">
   <img src="images/IMG_5781.png" width="200">
 </p>
@@ -42,8 +42,8 @@ Plant Monitor is a compact, IoT‑ready device designed to keep your plants heal
  16x2 character LCD with a two-wire I2C backpack used to display sensor readings.
 ---
 ### **Supporting Components**
-- **Four Double A Battery Pack (x2)**
- Provides power for motor, ESP32, sensors.
+- **Battery Pack (x2)**
+ Consists of two Double A batteries (totaling 4 batteries, 6 V). Provides power for motor, ESP32, sensors.
 - **L293D Dual Motor Driver**
  Dual H bridge driver supporting PWM output. Handles 600mA per channel and a peak current of 1.2A.
 - **Jumper Wires**
@@ -66,6 +66,26 @@ Plant Monitor is a compact, IoT‑ready device designed to keep your plants heal
 <p align="center">
   <img src="images/pcb_front.png" width="400">
   <img src="images/pcb_back.png" width="400">
+</p>
+
+### 3D Printed Enclosure
+<p align="center">
+  <img src="images/IMG_5776.png" width="200">
+  <img src="images/IMG_5777.png" width="200">
+  <img src="images/IMG_5778.png" width="200">
+</p>
+<p align="center">
+  <img src="images/IMG_5779.png" width="200">
+  <img src="images/IMG_5780.png" width="200">
+  <img src="images/IMG_5789.png" width="200">
+</p>
+
+### Final Design
+<p align="center">
+  <img src="images/IMG_5781.png" width="200">
+  <img src="images/IMG_5782.png" width="200">
+  <img src="images/IMG_5783.png" width="200">
+  <img src="images/IMG_5784.png" width="200">
 </p>
 ---
 
